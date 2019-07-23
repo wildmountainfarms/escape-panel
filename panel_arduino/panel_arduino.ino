@@ -1,18 +1,21 @@
 #include <Arduino.h>
-#include "User_Setup.h"
+#include "Encoder.h"
+#include "PullUpButton.h"
 
 bool isPowered = false;
+Encoder encoder(8, 9);
 
 bool isPowerFlowing(){
-    return digitalRead(7) == 0;
+    return digitalRead(6) == 0;
 }
 
 void setup() {
     pinMode(7, INPUT_PULLUP); // when connected to ground, digitalRead will be 0
     Serial.begin(9600);
 }
-
+l
 void loop() {
+    encoder.update();
     if(!isPowered){
         if(isPowerFlowing()){
             delay(500);
@@ -23,6 +26,5 @@ void loop() {
     } else {
 
     }
-    Serial.println(digitalRead(7));
-    delay(500);
+    Serial.println(encoder.getPosition());
 }
